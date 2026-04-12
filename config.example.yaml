@@ -1,0 +1,11 @@
+openaiProvider:
+  key: ""
+  model: "gpt-5.2"
+  baseURL: ""
+prompt:
+  system: "You are a helpful assistant."
+server:
+  port: "8077"
+napcat:
+  apiBaseURL: "http://localhost:3000"
+  expectedToken: ""
