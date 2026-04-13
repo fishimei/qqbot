@@ -53,3 +53,13 @@ func LoadNapcatConfig() (apiBaseURL, expectedToken string) {
 	expectedToken = viper.GetString("napcat.expectedToken")
 	return
 }
+
+func LoadJudgeAtConfig() bool {
+	viper.SetConfigType("yaml")
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+	if err := viper.ReadInConfig(); err != nil {
+		panic(err)
+	}
+	return viper.GetBool("judgeAt.enable")
+}

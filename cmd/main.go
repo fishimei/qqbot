@@ -19,6 +19,7 @@ func main() {
 		Model:   model,
 		BaseURL: baseURL,
 	})
+	//agent, _ := adk.NewChatModelAgent(ctx,&adk.ChatModelAgentConfig{})
 	if err != nil {
 		log.Fatal(err)
 		return
