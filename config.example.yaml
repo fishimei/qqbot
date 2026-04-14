@@ -9,5 +9,6 @@ server:
 napcat:
   apiBaseURL: "http://localhost:3000"
   expectedToken: ""
+  authToken: ""
 judgeAt:
   enable: true

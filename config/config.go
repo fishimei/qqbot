@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"log"
+
+	"github.com/spf13/viper"
+)
 
 func LoadModelConfig() (key, model, baseURL, systemPrompt string) {
 	viper.SetConfigType("yaml")
@@ -11,7 +15,7 @@ func LoadModelConfig() (key, model, baseURL, systemPrompt string) {
 	}
 	key = viper.GetString("openaiProvider.key")
 	if key == "" {
-		panic("key is required in config.yaml")
+		log.Println("key is empty, you may not be able to send messages to AI provider")
 	}
 	model = viper.GetString("openaiProvider.model")
 	if model == "" {
@@ -39,7 +43,7 @@ func LoadServerConfig() string {
 	return ":" + port
 }
 
-func LoadNapcatConfig() (apiBaseURL, expectedToken string) {
+func LoadNapcatConfig() (apiBaseURL, expectedToken, authToken string) {
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
@@ -51,6 +55,10 @@ func LoadNapcatConfig() (apiBaseURL, expectedToken string) {
 		apiBaseURL = "http://localhost:3000"
 	}
 	expectedToken = viper.GetString("napcat.expectedToken")
+	authToken = viper.GetString("napcat.authToken")
+	if authToken == "" {
+		log.Println("authToken is empty, you may not be able to send messages to napcat")
+	}
 	return
 }
 
