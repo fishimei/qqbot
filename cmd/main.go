@@ -3,30 +3,30 @@ package main
 import (
 	"bot/config"
 	"bot/internal/routes"
+	"bot/models"
 	"context"
 	"log"
 
 	"github.com/cloudwego/eino-ext/components/model/ark"
-	"github.com/cloudwego/eino/schema"
 )
 
 func main() {
 	ctx := context.Background()
 	log.Println("加载配置")
-	key, model, baseURL, systemPrompt := config.LoadModelConfig()
+	key, model, baseURL := config.LoadModelConfig()
 	chatModel, err := ark.NewChatModel(ctx, &ark.ChatModelConfig{
 		APIKey:  key,
 		Model:   model,
 		BaseURL: baseURL,
 	})
-	//agent, _ := adk.NewChatModelAgent(ctx,&adk.ChatModelAgentConfig{})
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("创建模型失败", err)
 		return
 	}
-	messages := []*schema.Message{
-		schema.SystemMessage(systemPrompt),
-	}
+	register := models.NewSessionRegister(chatModel)
+	pool := models.NewWorkPool(4, 20, register)
+	//agent, _ := adk.NewChatModelAgent(ctx,&adk.ChatModelAgentConfig{})
+	go pool.Start()
 	log.Println("启动 HTTP 服务器")
-	routes.Run(chatModel, ctx, messages)
+	routes.Run(ctx, pool)
 }

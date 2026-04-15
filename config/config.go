@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func LoadModelConfig() (key, model, baseURL, systemPrompt string) {
+func LoadModelConfig() (key, model, baseURL string) {
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
@@ -25,7 +25,6 @@ func LoadModelConfig() (key, model, baseURL, systemPrompt string) {
 	if baseURL == "" {
 		baseURL = "https://api.openai.com/v1"
 	}
-	systemPrompt = viper.GetString("prompt.system")
 	return
 }
 
@@ -70,4 +69,15 @@ func LoadJudgeAtConfig() bool {
 		panic(err)
 	}
 	return viper.GetBool("judgeAt.enable")
+}
+
+func LoadSystemPrompts() (systemPrompt string) {
+	viper.SetConfigType("yaml")
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+	if err := viper.ReadInConfig(); err != nil {
+		panic(err)
+	}
+	systemPrompt = viper.GetString("prompts.system")
+	return
 }

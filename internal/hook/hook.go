@@ -10,15 +10,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func PassToken(apiBaseURL, authToken string) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Set("apiBaseURL", apiBaseURL)
-		c.Set("authToken", authToken)
-		if authToken == "" {
-			c.AbortWithStatusJSON(http.StatusExpectationFailed, gin.H{"error": "客户端authToken未配置，请检查配置文件"})
-		}
-	}
-}
+//func PassToken(apiBaseURL, authToken string) gin.HandlerFunc {
+//	return func(c *gin.Context) {
+//		c.Set("apiBaseURL", apiBaseURL)
+//		c.Set("authToken", authToken)
+//		if authToken == "" {
+//			c.AbortWithStatusJSON(http.StatusExpectationFailed, gin.H{"error": "客户端authToken未配置，请检查配置文件"})
+//		}
+//	}
+//}
 
 // CheckToken 是一个 Gin 中间件函数，用于验证请求中的 Authorization 头部是否包含预期的 Bearer Token。
 func CheckToken(expectedToken string) gin.HandlerFunc {
