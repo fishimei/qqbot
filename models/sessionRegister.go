@@ -26,13 +26,14 @@ func (sr *SessionProfessorRegister) GetSessionProfessor(sessionID string) (*Sess
 	return sessionProfessor, exist
 }
 
-func (sr *SessionProfessorRegister) RegisterSessionProfessor(sessionProfessor *SessionProfessor) *SessionProfessor {
+func (sr *SessionProfessorRegister) RegisterSessionProfessor(sessionID string, chatModel *ark.ChatModel) *SessionProfessor {
 	sr.Lock()
 	defer sr.Unlock()
-	sp, exist := sr.sessionMap[sessionProfessor.session.SessionID]
+	sp, exist := sr.sessionMap[sessionID]
 	if exist {
 		return sp
 	}
-	sr.sessionMap[sessionProfessor.session.SessionID] = sessionProfessor
+	sessionProfessor := NewSessionProfessor(sessionID, chatModel)
+	sr.sessionMap[sessionID] = sessionProfessor
 	return sessionProfessor
 }

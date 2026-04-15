@@ -1,28 +1,27 @@
 package routes
 
 import (
-	config2 "bot/config"
+	"bot/config"
 	"bot/internal/hook"
 	"bot/internal/sendMsg"
 	"bot/models"
-	"context"
 	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Run(ctx context.Context, pool *models.WorkPool) {
+func Run(pool *models.WorkPool) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	_, expectedToken, _ := config2.LoadNapcatConfig()
-	judgeEnable := config2.LoadJudgeAtConfig()
+	_, expectedToken, _ := config.LoadNapcatConfig()
+	judgeEnable := config.LoadJudgeAtConfig()
 	r.Use(
 		hook.CheckToken(expectedToken),
 		hook.ParseMsg(),
 		hook.JudgeAt(judgeEnable),
 	)
-	r.POST("/", sendMsg.SendMsg(ctx, pool))
-	port := config2.LoadServerConfig()
+	r.POST("/", sendMsg.SendMsg(pool))
+	port := config.LoadServerConfig()
 	err := r.Run(port)
 	if err != nil {
 		log.Fatal(err)

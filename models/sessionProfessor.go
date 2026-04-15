@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 	"sync/atomic"
+	"time"
 
 	"github.com/cloudwego/eino-ext/components/model/ark"
 	"github.com/cloudwego/eino/schema"
@@ -42,13 +43,19 @@ func NewSessionProfessor(sessionID string, chatModel *ark.ChatModel) *SessionPro
 	return sp
 }
 
-func (sp *SessionProfessor) Start() {
+func (sp *SessionProfessor) Start(ctx context.Context) {
 	if !sp.useStatus.Swap(true) {
-		go func() {
-			for msg := range sp.msgCh {
-				sp.HandleEvent(msg)
+		go func(ctx context.Context) {
+			for {
+				select {
+				case msg := <-sp.msgCh:
+					sp.HandleEvent(ctx, msg)
+				case <-ctx.Done():
+					log.Println("session professor context done, session id:", sp.session.SessionID)
+					return
+				}
 			}
-		}()
+		}(ctx)
 	}
 }
 
@@ -56,10 +63,11 @@ func (sp *SessionProfessor) AppendEvent(event *Event) {
 	sp.msgCh <- event
 }
 
-func (sp *SessionProfessor) HandleEvent(msg *Event) {
-	ctx := context.Background()
+func (sp *SessionProfessor) HandleEvent(ctx context.Context, msg *Event) {
+	ctxTimeout, cancel := context.WithTimeout(ctx, time.Minute)
+	defer cancel()
 	sp.session.Append(StructRequest(msg.Message))
-	reply := sp.GetReply(ctx, sp.session.GetAll())
+	reply := sp.GetReply(ctxTimeout, sp.session.GetAll())
 	sendMsgToNapcat(sp.session.SessionID, reply, sp.napcatConfig.ApiBaseURL, sp.napcatConfig.AuthToken)
 }
 

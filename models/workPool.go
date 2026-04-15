@@ -1,6 +1,7 @@
 package models
 
 import (
+	"context"
 	"sync"
 )
 
@@ -24,25 +25,29 @@ func (wp *WorkPool) AddEvent(event *Event) {
 	wp.msgCh <- event
 }
 
-func (wp *WorkPool) Start() {
+func (wp *WorkPool) Start(ctx context.Context) {
 	for i := 0; i < wp.workerCount; i++ {
 		wp.Add(1)
-		go func() {
-			defer wp.Done()
-			for event := range wp.msgCh {
-				wp.handleEvent(event)
+		go func(ctx context.Context) {
+			for {
+				select {
+				case event := <-wp.msgCh:
+					wp.handleEvent(ctx, event)
+				case <-ctx.Done():
+					wp.Done()
+					return
+				}
 			}
-		}()
+		}(ctx)
 	}
-	wp.Wait()
 }
 
-func (wp *WorkPool) handleEvent(event *Event) {
+func (wp *WorkPool) handleEvent(ctx context.Context, event *Event) {
 	sessionID := event.StructSessionID()
 	sessionProfessor, exist := wp.register.GetSessionProfessor(sessionID)
 	if !exist {
-		sessionProfessor = wp.register.RegisterSessionProfessor(NewSessionProfessor(sessionID, wp.register.chatModel))
+		sessionProfessor = wp.register.RegisterSessionProfessor(sessionID, wp.register.chatModel)
 	}
 	sessionProfessor.AppendEvent(event)
-	sessionProfessor.Start()
+	sessionProfessor.Start(ctx)
 }
