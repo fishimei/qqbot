@@ -16,23 +16,3 @@ func GetEvent(c *gin.Context) (models.Event, bool) {
 	}
 	return event, true
 }
-
-func GetApiBaseURL(c *gin.Context) (string, bool) {
-	anyBaseURL, _ := c.Get("apiBaseURL")
-	apiBaseURL, ok := anyBaseURL.(string)
-	if !ok {
-		log.Println("failed to get apiBaseURL from context")
-		return "", false
-	}
-	return apiBaseURL, true
-}
-
-func GetAuthToken(c *gin.Context) (string, bool) {
-	anyAuthToken, _ := c.Get("authToken")
-	authToken, ok := anyAuthToken.(string)
-	if !ok {
-		log.Println("failed to get authToken from context")
-		return "", false
-	}
-	return authToken, true
-}
