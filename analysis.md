@@ -51,3 +51,37 @@
 //实现记忆系统
 
 //{message group 2274735204 434395907 [CQ:at,qq=2748963434] 你好 2748963434}
+
+{"self_id":3557005467,
+"user_id":2274735204,
+"time":1776408958,
+"message_id":2005105714,
+"message_seq":2005105714,
+"real_id":2005105714,
+"real_seq":"0",
+"message_type":"private",
+"sender":{"user_id":2274735204,"nickname":"￴","card":""},
+"raw_message":"[CQ:onlinefile,msgId=7629618380760297283,elementId=7629618380760297282,fileName=main.txt,fileSize=74099,isDir=false]","font":14,"sub_type":"friend",
+"message":[{"type":"onlinefile","data":{"msgId":"7629618380760297283","elementId":"7629618380760297282","fileName":"main.txt","fileSize":"74099","isDir":false}}],
+"message_format":"array",
+"post_type":"message",
+"target_id":2274735204}
+
+{"self_id":3557005467,
+"user_id":2274735204,
+"time":1776408962,
+"message_id":740017926,
+"message_seq":740017926,
+"real_id":740017926,
+"real_seq":"10",
+"message_type":"private",
+"sender":{"user_id":2274735204,"nickname":"￴","card":""},
+"raw_message":"👀[CQ:face,id=311,raw=&#91;object Object&#93;][CQ:face,id=312,raw=&#91;object Object&#93;]",
+"font":14,
+"sub_type":"friend",
+"message":[{"type":"text","data":{"text":"👀"}},
+{"type":"face","data":{"id":"311","raw":{"faceIndex":311,"faceText":"[打call]","faceType":2,"packId":null,"stickerId":null,"sourceType":null,"stickerType":null,"resultId":null,"surpriseId":null,"randomType":null,"imageType":null,"pokeType":null,"spokeSummary":null,"doubleHit":null,"vaspokeId":null,"vaspokeName":null,"vaspokeMinver":null,"pokeStrength":null,"msgType":null,"faceBubbleCount":null,"oldVersionStr":null,"pokeFlag":null,"chainCount":null},"resultId":null,"chainCount":null}},
+{"type":"face","data":{"id":"312","raw":{"faceIndex":312,"faceText":"[变形]","faceType":2,"packId":null,"stickerId":null,"sourceType":null,"stickerType":null,"resultId":null,"surpriseId":null,"randomType":null,"imageType":null,"pokeType":null,"spokeSummary":null,"doubleHit":null,"vaspokeId":null,"vaspokeName":null,"vaspokeMinver":null,"pokeStrength":null,"msgType":null,"faceBubbleCount":null,"oldVersionStr":null,"pokeFlag":null,"chainCount":null},"resultId":null,"chainCount":null}}],
+"message_format":"array",
+"post_type":"message",
+"target_id":2274735204}

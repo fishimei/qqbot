@@ -6,7 +6,6 @@ server:
   port: "8077"
 napcat:
   apiBaseURL: "http://localhost:3000"
-  expectedToken: ""
   authToken: ""
 judgeAt:
   enable: true

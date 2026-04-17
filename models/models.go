@@ -33,13 +33,6 @@ type MetaMessage struct {
 	Data map[string]interface{} `json:"data"`
 }
 
-type SendMsgReq struct {
-	MessageType string `json:"message_type"`
-	UserID      int64  `json:"user_id,omitempty"`
-	GroupID     int64  `json:"group_id,omitempty"`
-	Message     string `json:"message"`
-}
-
 type Session struct {
 	SessionID string `json:"session_id"`
 	MessagesRingBuffer
@@ -63,4 +56,16 @@ func NewNapcatConfig() *NapcatConfig {
 		ApiBaseURL: apiBaseURL,
 		AuthToken:  authToken,
 	}
+}
+
+type SendMsgReq struct {
+	MessageType string `json:"message_type"`
+	UserID      string `json:"user_id,omitempty"`
+	GroupID     string `json:"group_id,omitempty"`
+	Message     string `json:"message"`
+}
+
+type NapcatFile struct {
+	Status string                 `json:"status"`
+	Data   map[string]interface{} `json:"data"`
 }

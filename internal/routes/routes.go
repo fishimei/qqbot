@@ -13,10 +13,8 @@ import (
 func Run(pool *models.WorkPool) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	_, expectedToken, _ := config.LoadNapcatConfig()
 	judgeEnable := config.LoadJudgeAtConfig()
 	r.Use(
-		hook.CheckToken(expectedToken),
 		hook.ParseMsg(),
 		hook.JudgeAt(judgeEnable),
 	)
